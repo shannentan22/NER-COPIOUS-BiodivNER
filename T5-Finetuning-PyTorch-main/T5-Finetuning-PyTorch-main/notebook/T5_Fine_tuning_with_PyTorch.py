@@ -2,9 +2,9 @@
 # <a href="https://colab.research.google.com/github/Shivanandroy/T5-Finetuning-PyTorch/blob/main/notebook/T5_Fine_tuning_with_PyTorch.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 # %%
-!pip install sentencepiece
-!pip install transformers
-!pip install rich[jupyter]
+# !pip install sentencepiece
+# !pip install transformers
+# !pip install rich[jupyter]
 
 # %%
 import pandas as pd
