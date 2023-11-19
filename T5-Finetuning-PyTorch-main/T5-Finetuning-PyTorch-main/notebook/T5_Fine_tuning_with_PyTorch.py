@@ -270,7 +270,7 @@ def T5Trainer(dataframe, source_text, target_text, model_params, output_dir="./o
 
 # %%
 model_params={
-    "MODEL":"t5-base",             # model_type: t5-base/t5-large
+    "MODEL":"t5-small",             # model_type: t5-base/t5-large
     "TRAIN_BATCH_SIZE":8,          # training batch size
     "VALID_BATCH_SIZE":8,          # validation batch size
     "TRAIN_EPOCHS":3,              # number of training epochs
