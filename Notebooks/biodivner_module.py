@@ -9,10 +9,10 @@
 # ## Import and Configurations
 
 # %%
-!pip install pandas
-!pip install numpy
-!pip install matplotlib
-!pip install tabulate
+import subprocess
+packages = ['pandas', 'numpy', 'matplotlib', 'tabulate']
+for p in packages:
+   subprocess.run(['pip', 'install', p])
 
 import os
 import pandas as pd
@@ -24,7 +24,7 @@ from tabulate import tabulate
 # ## Dataset Configurations
 
 # %%
-root_data_dir = "../Datasets/NER/BiodivNER/"
+root_data_dir = "./Datasets/NER/BiodivNER/"
 
 dataset = "train"
 train_csv_file_path = "train.csv"
@@ -68,22 +68,10 @@ class SentenceGetter(object):
 data = loadData(train_csv_file_path)
 
 # %%
-data.head(10)
-
-# %%
 val_data = loadData(val_csv_file_path)
 
 # %%
-val_data.head(10)
-
-# %%
 test_data = loadData(test_csv_file_path)
-
-# %%
-test_data.head(10)
-
-# %% [markdown]
-# ## Exploratory Data Analysis
 
 # %% [markdown]
 # ### Vocabulary and tags
@@ -101,12 +89,6 @@ n_words = len(VOCAB) #n_words includes all vocab from train and validation test.
 tags = list(set(data["Tag"].values))
 
 n_tags = len(tags)
-
-# %%
-print(n_words, VOCAB[0:10] ,VOCAB[n_words-1], sep='\n')
-
-# %%
-print(n_words, VOCAB[0:10] ,VOCAB[n_words-1], sep='\n')
 
 # %% [markdown]
 # ### Creating sentences for train, val, and test sets
@@ -130,22 +112,6 @@ sent_test = getter_test.get_next()
 print(sent_test)
 
 # %% [markdown]
-# ### Sentence lengths
-
-# %% [markdown]
-# T5's recommended number of tokens per input is at most 512. The purpose of this is to save on memory resources.
-
-# %%
-plt.style.use("ggplot")
-
-# %%
-plt.hist([len(s) for s in sentences_val], bins=5)
-plt.show()
-
-# %%
-max([len(s) for s in sentences_val])
-
-# %% [markdown]
 # ## Encoder format
 
 # %% [markdown]
@@ -154,15 +120,12 @@ max([len(s) for s in sentences_val])
 # %%
 tag2id = {tag: id for id, tag in enumerate(tags)}
 id2tag = {id: tag for tag, id in tag2id.items()}
-print(tag2id)
 
 # %%
 tag2id_list = list(tag2id.items())
-print(tabulate(tag2id_list, headers=['Tag', 'ID']))
 
 # %%
 id2tag_list = list(id2tag.items())
-print(tabulate(id2tag_list, headers=['ID', 'Tag']))
 
 # %% [markdown]
 # Split texts from tags (use two different Python lists)
@@ -186,13 +149,3 @@ def get_text_tags_lists(sentences):
 train_texts, train_tags = get_text_tags_lists(sentences)
 val_texts, val_tags = get_text_tags_lists(sentences_val)
 test_texts, test_tags = get_text_tags_lists(sentences_test)
-
-# %%
-for row in train_texts[0:9]:
-    print(row)
-
-# %%
-for row in train_tags[0:9]:
-    print(row)
-
-
