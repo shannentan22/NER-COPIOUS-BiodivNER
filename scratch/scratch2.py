@@ -170,7 +170,7 @@ def convert_iob2_to_t5(words, tags):
         elif tag.startswith('I-'):
             t5_labels.append(word)
         else:
-            t5_labels.append(f"</{tag[2:]}")
+            t5_labels.append(f"</{tag[2:]}>")
 
     return ' '.join(t5_labels)
 
