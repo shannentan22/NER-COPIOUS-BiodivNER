@@ -24,7 +24,7 @@ from tabulate import tabulate
 # ## Dataset Configurations
 
 # %%
-root_data_dir = "./Datasets/NER/BiodivNER/"
+root_data_dir = "../Datasets/NER/BiodivNER/"
 
 dataset = "train"
 train_csv_file_path = "train.csv"
