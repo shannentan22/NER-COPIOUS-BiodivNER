@@ -10,7 +10,7 @@
 
 # %%
 # import subprocess
-# packages = ['pandas', 'numpy', 'matplotlib', 'tabulate', 'torch', 'transformers']
+# packages = ['pandas', 'numpy', 'matplotlib', 'tabulate', 'torch', 'transformers', 'scikit-learn', 'seqeval']
 # for p in packages:
 #    subprocess.run(['pip', 'install', p])
 
@@ -97,19 +97,19 @@ n_tags = len(tags)
 getter = SentenceGetter(data)
 sentences = getter.sentences
 sent = getter.get_next()
-print(sent)
+# print(sent)
 
 # %%
 getter_val = SentenceGetter(val_data)
 sentences_val = getter_val.sentences
 sent_val = getter_val.get_next()
-print(sent_val)
+# print(sent_val)
 
 # %%
 getter_test = SentenceGetter(test_data)
 sentences_test = getter_test.sentences
 sent_test = getter_test.get_next()
-print(sent_test)
+# print(sent_test)
 
 # %% [markdown]
 # ## Encoder format
@@ -194,25 +194,40 @@ def tokenize_data(input_texts):
 
     return input_ids, attention_masks
 
-# Tokenize training, validation, and test data
-X_train, attention_masks_train = tokenize_data(train_t5_inputs)
-X_val, attention_masks_val = tokenize_data(val_t5_inputs)
-X_test, attention_masks_test = tokenize_data(test_t5_inputs)
+# Tokenize training data and split into chunks
+def tokenize_and_split(input_texts, labels):
+    input_ids = []
+    attention_masks = []
+    label_ids = []
 
-# Assuming you have labels in the same IOB2 format
-y_train, _ = get_text_tags_lists(sentences)
-y_val, _ = get_text_tags_lists(sentences_val)
-y_test, _ = get_text_tags_lists(sentences_test)
+    for text, label in zip(input_texts, labels):
+        encoded = tokenizer.encode_plus(text, return_tensors='pt', padding='max_length', truncation=True, max_length=512)
+        input_ids.append(encoded['input_ids'])
+        attention_masks.append(encoded['attention_mask'])
+        label_ids.append(label)
 
-# Convert labels to IDs using the tokenizer
-def convert_labels_to_ids(labels):
-    label_ids = [tokenizer.encode(label, return_tensors='pt')[0] for label in labels]
-    return torch.cat(label_ids, dim=0)
+    input_ids = torch.cat(input_ids, dim=0)
+    attention_masks = torch.cat(attention_masks, dim=0)
+    label_ids = torch.cat(label_ids, dim=0)
 
-# Convert labels to IDs
-y_train_ids = convert_labels_to_ids(y_train)
-y_val_ids = convert_labels_to_ids(y_val)
-y_test_ids = convert_labels_to_ids(y_test)
+    return input_ids, attention_masks, label_ids
+
+# Tokenize and split training data
+X_train, attention_masks_train, y_train_ids = tokenize_and_split(train_t5_inputs, y_train)
+
+# Create DataLoader
+train_dataset = TensorDataset(X_train, attention_masks_train, y_train_ids)
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+# Tokenize validation and test data
+X_val, attention_masks_val, y_val_ids = tokenize_and_split(val_t5_inputs, y_val)
+X_test, attention_masks_test, y_test_ids = tokenize_and_split(test_t5_inputs, y_test)
+
+# Create DataLoader for validation and test
+val_dataset = TensorDataset(X_val, attention_masks_val, y_val_ids)
+test_dataset = TensorDataset(X_test, attention_masks_test, y_test_ids)
+val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 # Create DataLoader
 train_dataset = TensorDataset(X_train, attention_masks_train, y_train_ids)
