@@ -200,8 +200,6 @@ X_train, attention_masks_train = tokenize_data(train_t5_inputs)
 X_val, attention_masks_val = tokenize_data(val_t5_inputs)
 X_test, attention_masks_test = tokenize_data(test_t5_inputs)
 
-print(X_train)
-
 # Assuming you have labels in the same IOB2 format
 y_train, _ = get_text_tags_lists(sentences)
 y_val, _ = get_text_tags_lists(sentences_val)
@@ -209,7 +207,7 @@ y_test, _ = get_text_tags_lists(sentences_test)
 
 # Convert labels to IDs using the tokenizer
 def convert_labels_to_ids(labels):
-    label_ids = [tokenizer.encode(label, return_tensors='pt', max_length=512)[0] for label in labels]
+    label_ids = [tokenizer.encode(label, return_tensors='pt')[0] for label in labels]
     return torch.cat(label_ids, dim=0)
 
 # Convert labels to IDs
