@@ -10,7 +10,7 @@
 
 # %%
 import subprocess
-packages = ['pandas', 'numpy', 'matplotlib', 'tabulate']
+packages = ['pandas', 'numpy', 'matplotlib', 'tabulate', 'torch']
 for p in packages:
    subprocess.run(['pip', 'install', p])
 
