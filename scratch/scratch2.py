@@ -9,10 +9,10 @@
 # ## Import and Configurations
 
 # %%
-import subprocess
-packages = ['pandas', 'numpy', 'matplotlib', 'tabulate', 'torch']
-for p in packages:
-   subprocess.run(['pip', 'install', p])
+# import subprocess
+# packages = ['pandas', 'numpy', 'matplotlib', 'tabulate', 'torch', 'transformers']
+# for p in packages:
+#    subprocess.run(['pip', 'install', p])
 
 import os
 import pandas as pd
