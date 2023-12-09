@@ -1,7 +1,4 @@
 # %%
-torch.cuda.empty_cache()
-
-# %%
 import os
 import pandas as pd
 import numpy as np
@@ -121,6 +118,9 @@ from torch.nn.parallel import DataParallel
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from seqeval.metrics import precision_score, recall_score, f1_score, classification_report, accuracy_score
+
+# %%
+torch.cuda.empty_cache()
 
 # %%
 tokenizer = T5TokenizerFast.from_pretrained("t5-small")
