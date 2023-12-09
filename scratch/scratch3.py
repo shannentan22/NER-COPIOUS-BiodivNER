@@ -65,19 +65,19 @@ n_tags = len(tags)
 getter = SentenceGetter(data)
 sentences = getter.sentences
 sent = getter.get_next()
-print(sent)
+# print(sent)
 
 # %%
 getter_val = SentenceGetter(val_data)
 sentences_val = getter_val.sentences
 sent_val = getter_val.get_next()
-print(sent_val)
+# print(sent_val)
 
 # %%
 getter_test = SentenceGetter(test_data)
 sentences_test = getter_test.sentences
 sent_test = getter_test.get_next()
-print(sent_test)
+# print(sent_test)
 
 # %%
 tag2id = {tag: id for id, tag in enumerate(tags)}
@@ -157,16 +157,16 @@ val_tokenized = tokenize_and_align_labels(val_texts, val_tags)
 test_tokenized = tokenize_and_align_labels(test_texts, test_tags)
 
 # %%
-print(list(train_tokenized['input_ids']))
-print(list(train_tokenized['labels']))
+# print(list(train_tokenized['input_ids']))
+# print(list(train_tokenized['labels']))
 
 # %%
-for i in train_tokenized['input_ids'][0:10]:
-    print(len(i), i)
+# for i in train_tokenized['input_ids'][0:10]:
+#     print(len(i), i)
 
 # %%
-for i in train_tokenized['labels'][0:10]:
-    print(len(i), i)
+# for i in train_tokenized['labels'][0:10]:
+#     print(len(i), i)
 
 # %%
 model = T5ForConditionalGeneration.from_pretrained("t5-small")
@@ -191,9 +191,22 @@ training_args = TrainingArguments(
 )
 
 # %%
+# class NERDataset(torch.utils.data.Dataset):
+#     def __init__(self, encodings, labels):
+#         self.encodings = encodings
+#         self.labels = labels
+
+#     def __getitem__(self, idx):
+#         item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+#         item['labels'] = torch.tensor(self.labels[idx])
+#         return item
+
+#     def __len__(self):
+#         return len(self.labels)
+    
 class NERDataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels):
-        self.encodings = encodings
+        self.encodings = dict(encodings)  # Initialize as a dictionary
         self.labels = labels
 
     def __getitem__(self, idx):
