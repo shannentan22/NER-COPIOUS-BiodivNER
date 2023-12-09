@@ -181,8 +181,8 @@ model.to(device)
 training_args = TrainingArguments(
     output_dir="./output_dir",  # Change this to your desired output directory
     num_train_epochs=1,
-    per_device_train_batch_size=4,
-    per_device_eval_batch_size=4,
+    per_device_train_batch_size=2,
+    per_device_eval_batch_size=2,
     save_steps=500,  # Save model every 500 steps
     evaluation_strategy="steps",
     eval_steps=250,  # Evaluate every 250 steps
