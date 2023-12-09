@@ -1,4 +1,7 @@
 # %%
+torch.cuda.empty_cache()
+
+# %%
 import os
 import pandas as pd
 import numpy as np
@@ -65,19 +68,19 @@ n_tags = len(tags)
 getter = SentenceGetter(data)
 sentences = getter.sentences
 sent = getter.get_next()
-print(sent)
+# print(sent)
 
 # %%
 getter_val = SentenceGetter(val_data)
 sentences_val = getter_val.sentences
 sent_val = getter_val.get_next()
-print(sent_val)
+# print(sent_val)
 
 # %%
 getter_test = SentenceGetter(test_data)
 sentences_test = getter_test.sentences
 sent_test = getter_test.get_next()
-print(sent_test)
+# print(sent_test)
 
 # %%
 tag2id = {tag: id for id, tag in enumerate(tags)}
@@ -111,8 +114,10 @@ test_texts, test_tags = get_text_tags_lists(sentences_test)
 
 # %%
 import torch
+import torch.nn as nn
 from transformers import BertTokenizerFast, T5ForConditionalGeneration, T5Tokenizer, T5TokenizerFast, AdamW, Trainer, TrainingArguments
 from torch.utils.data import DataLoader, TensorDataset
+from torch.nn.parallel import DataParallel
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from seqeval.metrics import precision_score, recall_score, f1_score, classification_report, accuracy_score
@@ -155,16 +160,16 @@ val_labels = encode_tags(val_tags, val_encodings, tokenizer)
 test_labels = encode_tags(test_tags, test_encodings, tokenizer)
 
 # %%
-print(len(train_encodings['offset_mapping'][0]))
-print(len(train_encodings['input_ids'][0]))
+# print(len(train_encodings['offset_mapping'][0]))
+# print(len(train_encodings['input_ids'][0]))
 
 # %%
-for i in train_encodings["input_ids"][0:3]:
-    print(len(i), i)
+# for i in train_encodings["input_ids"][0:3]:
+#     print(len(i), i)
 
 # %%
-for i in train_labels[0:10]:
-    print(len(i), i)
+# for i in train_labels[0:10]:
+#     print(len(i), i)
 
 # %%
 train_encodings.pop("offset_mapping") # we don't want to pass this to the model
@@ -176,6 +181,7 @@ model = T5ForConditionalGeneration.from_pretrained("t5-small")
 optimizer = AdamW(model.parameters(), lr=5e-5)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
+model = DataParallel(model)
 
 # %%
 training_args = TrainingArguments(
