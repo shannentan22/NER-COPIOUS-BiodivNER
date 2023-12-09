@@ -190,12 +190,12 @@ training_args = TrainingArguments(
     per_device_train_batch_size=1,
     per_device_eval_batch_size=1,
     # save_steps=500,  # Save model every 500 steps
-    evaluation_strategy="steps",
-    eval_steps=250,  # Evaluate every 250 steps
+    evaluation_strategy="epoch",
+    # eval_steps=250,  # Evaluate every 250 steps
     logging_steps=100,  # Log every 100 steps
     learning_rate=5e-5,
     # save_total_limit=2,  # Only keep the last two models
-    remove_unused_columns=False,  # Keep all columns in the dataset
+    remove_unused_columns=True,  # Keep all columns in the dataset
     push_to_hub=False,  # Set to True if you want to push to the Hugging Face Model Hub
 )
 
