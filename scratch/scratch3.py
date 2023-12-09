@@ -65,19 +65,19 @@ n_tags = len(tags)
 getter = SentenceGetter(data)
 sentences = getter.sentences
 sent = getter.get_next()
-# print(sent)
+print(sent)
 
 # %%
 getter_val = SentenceGetter(val_data)
 sentences_val = getter_val.sentences
 sent_val = getter_val.get_next()
-# print(sent_val)
+print(sent_val)
 
 # %%
 getter_test = SentenceGetter(test_data)
 sentences_test = getter_test.sentences
 sent_test = getter_test.get_next()
-# print(sent_test)
+print(sent_test)
 
 # %%
 tag2id = {tag: id for id, tag in enumerate(tags)}
@@ -111,7 +111,7 @@ test_texts, test_tags = get_text_tags_lists(sentences_test)
 
 # %%
 import torch
-from transformers import T5ForConditionalGeneration, T5Tokenizer, T5TokenizerFast, AdamW, Trainer, TrainingArguments
+from transformers import BertTokenizerFast, T5ForConditionalGeneration, T5Tokenizer, T5TokenizerFast, AdamW, Trainer, TrainingArguments
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
@@ -121,52 +121,55 @@ from seqeval.metrics import precision_score, recall_score, f1_score, classificat
 tokenizer = T5TokenizerFast.from_pretrained("t5-small")
 
 # %%
-label_all_tokens = False
+train_encodings = tokenizer(train_texts, is_split_into_words=True, return_offsets_mapping=True, padding=True, truncation=True)
+val_encodings = tokenizer(val_texts, is_split_into_words=True, return_offsets_mapping=True, padding=True, truncation=True)
+test_encodings = tokenizer(test_texts, is_split_into_words=True, return_offsets_mapping=True, padding=True, truncation=True)
 
 # %%
-def tokenize_and_align_labels(texts, tags):
-    tokenized_inputs = tokenizer(texts, truncation=True, is_split_into_words=True)
+def encode_tags(tags, encodings, tokenizer):
+    labels = [[tag2id[tag] for tag in doc] for doc in tags]
+    encoded_labels = []
 
-    labels = []
-    for i, label in enumerate(tags):
-        word_ids = tokenized_inputs.word_ids(batch_index=i)
-        previous_word_idx = None
-        label_ids = []
-        for word_idx in word_ids:
-            # Special tokens have a word id that is None. We set the label to -100 so they are automatically
-            # ignored in the loss function.
-            if word_idx is None:
-                label_ids.append(-100)
-            # We set the label for the first token of each word.
-            elif word_idx != previous_word_idx:
-                label_ids.append(label[word_idx])
-            # For the other tokens in a word, we set the label to either the current label or -100, depending on
-            # the label_all_tokens flag.
-            else:
-                label_ids.append(label[word_idx] if label_all_tokens else -100)
-            previous_word_idx = word_idx
+    for doc_labels, doc_input_ids, doc_offset in zip(labels, encodings.input_ids, encodings.offset_mapping):
+        doc_enc_labels = np.ones(len(doc_input_ids), dtype=int) * -100
+        arr_offset = np.array(doc_offset)
 
-        labels.append(label_ids)
-    
-    tokenized_inputs["labels"] = labels
-    return tokenized_inputs
+        # Get the start and end positions of non-padding tokens
+        non_pad_tokens = [i for i, input_id in enumerate(doc_input_ids) if input_id != tokenizer.pad_token_id]
+
+        # Calculate max_len based on conditions
+        max_len = len(doc_labels)
+
+        # Align labels with non-padding tokens
+        for i, idx in enumerate(non_pad_tokens[:max_len]):
+            doc_enc_labels[idx] = doc_labels[i]
+
+        encoded_labels.append(doc_enc_labels.tolist())
+
+    return encoded_labels
+
 
 # %%
-train_tokenized = tokenize_and_align_labels(train_texts, train_tags)
-val_tokenized = tokenize_and_align_labels(val_texts, val_tags)
-test_tokenized = tokenize_and_align_labels(test_texts, test_tags)
+train_labels = encode_tags(train_tags, train_encodings, tokenizer)
+val_labels = encode_tags(val_tags, val_encodings, tokenizer)
+test_labels = encode_tags(test_tags, test_encodings, tokenizer)
 
 # %%
-# print(list(train_tokenized['input_ids']))
-# print(list(train_tokenized['labels']))
+print(len(train_encodings['offset_mapping'][0]))
+print(len(train_encodings['input_ids'][0]))
 
 # %%
-# for i in train_tokenized['input_ids'][0:10]:
-#     print(len(i), i)
+for i in train_encodings["input_ids"][0:3]:
+    print(len(i), i)
 
 # %%
-# for i in train_tokenized['labels'][0:10]:
-#     print(len(i), i)
+for i in train_labels[0:10]:
+    print(len(i), i)
+
+# %%
+train_encodings.pop("offset_mapping") # we don't want to pass this to the model
+val_encodings.pop("offset_mapping")
+test_encodings.pop("offset_mapping")
 
 # %%
 model = T5ForConditionalGeneration.from_pretrained("t5-small")
@@ -191,40 +194,27 @@ training_args = TrainingArguments(
 )
 
 # %%
-# class NERDataset(torch.utils.data.Dataset):
-#     def __init__(self, encodings, labels):
-#         self.encodings = encodings
-#         self.labels = labels
-
-#     def __getitem__(self, idx):
-#         item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-#         item['labels'] = torch.tensor(self.labels[idx])
-#         return item
-
-#     def __len__(self):
-#         return len(self.labels)
-    
 class NERDataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels):
-        self.encodings = dict(encodings)  # Initialize as a dictionary
+        self.encodings = encodings
         self.labels = labels
-
-    def __getitem__(self, idx):
-        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        item['labels'] = torch.tensor(self.labels[idx])
-        return item
 
     def __len__(self):
         return len(self.labels)
 
-# %%
-train_dataset = NERDataset(train_tokenized['input_ids'], train_tokenized['labels'])
-val_dataset = NERDataset(val_tokenized['input_ids'], val_tokenized['labels'])
-test_dataset = NERDataset(test_tokenized['input_ids'], test_tokenized['labels'])
+    def __getitem__(self, idx):
+        item = {
+            'input_ids': torch.tensor(self.encodings['input_ids'][idx]),
+            'attention_mask': torch.tensor(self.encodings['attention_mask'][idx]),
+            'labels': torch.tensor(self.labels[idx]),
+        }
+
+        return item
 
 # %%
-model_name = 't5-small'
-model = T5ForConditionalGeneration.from_pretrained(model_name, num_labels=len(tags))
+train_dataset = NERDataset(train_encodings, train_labels)
+val_dataset = NERDataset(val_encodings, val_labels)
+test_dataset = NERDataset(test_encodings, test_labels)
 
 # %%
 def compute_metrics(p):
