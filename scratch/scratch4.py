@@ -191,7 +191,7 @@ training_args = TrainingArguments(
     remove_unused_columns=True,  # Keep all columns in the dataset
     push_to_hub=False,  # Set to True if you want to push to the Hugging Face Model Hub
     gradient_accumulation_steps=4,
-    gradient_checkpointing=True,
+    # gradient_checkpointing=True,
     optim="adafactor"
 )
 
