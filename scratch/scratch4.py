@@ -187,7 +187,7 @@ training_args = TrainingArguments(
     num_train_epochs=1,
     per_device_train_batch_size=1,
     per_device_eval_batch_size=1,
-    evaluation_strategy="epoch",
+    evaluation_strategy="no",
     # eval_steps=250,  # Evaluate every 250 steps
     logging_steps=100,  # Log every 100 steps
     learning_rate=5e-5,
@@ -196,7 +196,7 @@ training_args = TrainingArguments(
     push_to_hub=False,  # Set to True if you want to push to the Hugging Face Model Hub
     gradient_accumulation_steps=4,
     # gradient_checkpointing=True,
-    optim="adafactor"
+    optim="adamw_bnb_8bit"
 )
 
 # %%
@@ -210,8 +210,8 @@ class NERDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = {
-            'input_ids': torch.tensor(self.encodings['input_ids'][idx]),
-            'attention_mask': torch.tensor(self.encodings['attention_mask'][idx]),
+            'input_ids': self.encodings['input_ids'][idx],
+            'attention_mask': self.encodings['attention_mask'][idx],
             'labels': torch.tensor(self.labels[idx]),
         }
 
