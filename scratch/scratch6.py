@@ -253,6 +253,7 @@ test_dataset = NERDataset(test_encodings, test_labels)
 
 
 # %%
+from sklearn.metrics import accuracy_score
 def compute_metrics(p):
     predictions, labels = p
     predictions = np.argmax(predictions, axis=2)
@@ -262,15 +263,12 @@ def compute_metrics(p):
     y_true = []
     y_pred = []
     for preds, lbls in zip(predictions, labels):  
-        [y_true.append(id2tag[l]) for p, l in zip(preds, lbls) if l != -100]
-        [y_pred.append(id2tag[p]) for p, l in zip(preds, lbls) if l != -100]
+      [y_true.append(id2tag[l]) for p, l in zip(preds, lbls) if l != -100]
+      [y_pred.append(id2tag[p]) for p, l in zip(preds, lbls) if l != -100]
 
-    acc = accuracy_score([y_true], [y_pred])
-    seqeval_report = classification_report([y_true], [y_pred])
-
-    return {
+    acc = accuracy_score(y_true, y_pred)
+    return {    # we can customize this dictionary to include Pr, Recall and F1-Score as well.
         "accuracy": acc,
-        "seqeval_report": seqeval_report
     }
 
 class NERDataCollator:
