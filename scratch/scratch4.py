@@ -111,6 +111,8 @@ test_texts, test_tags = get_text_tags_lists(sentences_test)
 
 # %%
 import torch
+import torch.nn as nn
+from torch.nn import DataParallel
 from transformers import BertTokenizerFast, T5ForConditionalGeneration, T5Tokenizer, T5TokenizerFast, AdamW, Trainer, TrainingArguments
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
@@ -173,6 +175,8 @@ test_encodings.pop("offset_mapping")
 
 # %%
 model = T5ForConditionalGeneration.from_pretrained("t5-small")
+model = DataParallel(model)
+print("Model Device IDs:", model.device_ids)
 # optimizer = AdamW(model.parameters(), lr=5e-5)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
