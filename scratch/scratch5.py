@@ -200,17 +200,13 @@ class NERDataset(torch.utils.data.Dataset):
         self.encodings = encodings
         self.labels = labels
 
+    def __getitem__(self, idx):
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        item['labels'] = torch.tensor(self.labels[idx])
+        return item
+
     def __len__(self):
         return len(self.labels)
-
-    def __getitem__(self, idx):
-        item = {
-            'input_ids': self.encodings['input_ids'][idx],
-            'attention_mask': self.encodings['attention_mask'][idx],
-            'labels': torch.tensor(self.labels[idx]),
-        }
-
-        return item
 
 # %%
 train_dataset = NERDataset(train_encodings, train_labels)
@@ -238,26 +234,26 @@ def compute_metrics(p):
         "seqeval_report": seqeval_report
     }
 
-class NERDataCollator:
-    def __call__(self, batch):
-        input_ids = [item['input_ids'] for item in batch]
-        attention_mask = [item['attention_mask'] for item in batch]
-        labels = [item['labels'] for item in batch]
+# class NERDataCollator:
+#     def __call__(self, batch):
+#         input_ids = [item['input_ids'] for item in batch]
+#         attention_mask = [item['attention_mask'] for item in batch]
+#         labels = [item['labels'] for item in batch]
 
-        # Pad inputs and labels to the maximum sequence length in the batch
-        max_len = max(len(ids) for ids in input_ids)
-        padded_input_ids = [ids + [0] * (max_len - len(ids)) for ids in input_ids]
-        padded_attention_mask = [mask + [0] * (max_len - len(mask)) for mask in attention_mask]
-        padded_labels = [lbl + [-100] * (max_len - len(lbl)) for lbl in labels]
+#         # Pad inputs and labels to the maximum sequence length in the batch
+#         max_len = max(len(ids) for ids in input_ids)
+#         padded_input_ids = [ids + [0] * (max_len - len(ids)) for ids in input_ids]
+#         padded_attention_mask = [mask + [0] * (max_len - len(mask)) for mask in attention_mask]
+#         padded_labels = [lbl + [-100] * (max_len - len(lbl)) for lbl in labels]
 
-        return {
-            'input_ids': torch.tensor(padded_input_ids),
-            'attention_mask': torch.tensor(padded_attention_mask),
-            'labels': torch.tensor(padded_labels),
-        }
+#         return {
+#             'input_ids': torch.tensor(padded_input_ids),
+#             'attention_mask': torch.tensor(padded_attention_mask),
+#             'labels': torch.tensor(padded_labels),
+#         }
 
 # Create an instance of the NERDataCollator
-data_collator = NERDataCollator()
+# data_collator = NERDataCollator()
 
 # %%
 trainer = Trainer(
@@ -265,7 +261,7 @@ trainer = Trainer(
     args=training_args,                  # training arguments, defined above
     train_dataset=train_dataset,         # training dataset
     eval_dataset=val_dataset,             # evaluation dataset
-    data_collator=data_collator,
+    # data_collator=data_collator,
     compute_metrics=compute_metrics
 )
 
