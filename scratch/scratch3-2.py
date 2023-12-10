@@ -118,12 +118,6 @@ from tqdm import tqdm
 from seqeval.metrics import precision_score, recall_score, f1_score, classification_report, accuracy_score
 
 # %%
-train_labels_flat = [label for sublist in train_labels for label in sublist]
-unique_labels = set(train_labels_flat)
-
-print("Unique Labels:", unique_labels)
-
-# %%
 tokenizer = T5TokenizerFast.from_pretrained("t5-small")
 
 # %%
