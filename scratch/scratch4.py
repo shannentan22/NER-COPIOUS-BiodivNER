@@ -112,7 +112,7 @@ test_texts, test_tags = get_text_tags_lists(sentences_test)
 # %%
 import torch
 import torch.nn as nn
-from torch.nn import DataParallel
+# from torch.nn.parallel import DistributedDataParallel as DDP
 from transformers import BertTokenizerFast, T5ForConditionalGeneration, T5Tokenizer, T5TokenizerFast, AdamW, Trainer, TrainingArguments
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
@@ -175,7 +175,7 @@ test_encodings.pop("offset_mapping")
 
 # %%
 model = T5ForConditionalGeneration.from_pretrained("t5-small")
-model = DataParallel(model)
+# model = DataParallel(model)
 print("Model Device IDs:", model.device_ids)
 # optimizer = AdamW(model.parameters(), lr=5e-5)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -243,12 +243,34 @@ def compute_metrics(p):
         "seqeval_report": seqeval_report
     }
 
+class NERDataCollator:
+    def __call__(self, batch):
+        input_ids = [item['input_ids'] for item in batch]
+        attention_mask = [item['attention_mask'] for item in batch]
+        labels = [item['labels'] for item in batch]
+
+        # Pad inputs and labels to the maximum sequence length in the batch
+        max_len = max(len(ids) for ids in input_ids)
+        padded_input_ids = [ids + [0] * (max_len - len(ids)) for ids in input_ids]
+        padded_attention_mask = [mask + [0] * (max_len - len(mask)) for mask in attention_mask]
+        padded_labels = [lbl + [-100] * (max_len - len(lbl)) for lbl in labels]
+
+        return {
+            'input_ids': torch.tensor(padded_input_ids),
+            'attention_mask': torch.tensor(padded_attention_mask),
+            'labels': torch.tensor(padded_labels),
+        }
+
+# Create an instance of the NERDataCollator
+data_collator = NERDataCollator()
+
 # %%
 trainer = Trainer(
     model=model,                         # the instantiated Transformers model to be trained
     args=training_args,                  # training arguments, defined above
     train_dataset=train_dataset,         # training dataset
     eval_dataset=val_dataset,             # evaluation dataset
+    data_collator=data_collator,
     compute_metrics=compute_metrics
 )
 
