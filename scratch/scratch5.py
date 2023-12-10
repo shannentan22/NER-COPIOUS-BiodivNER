@@ -169,6 +169,7 @@ val_encodings.pop("offset_mapping")
 test_encodings.pop("offset_mapping")
 
 # %%
+torch.cuda.FloatTensor([1.0])
 model = BertForTokenClassification.from_pretrained("bert-base-cased")
 # model = DataParallel(model)
 # print("Model Device IDs:", model.device_ids)
