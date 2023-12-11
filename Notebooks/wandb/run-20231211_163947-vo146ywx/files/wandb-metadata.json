@@ -1,0 +1,81 @@
+{
+    "os": "Linux-5.15.0-89-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2023-12-11T08:39:48.106407",
+    "startedAt": "2023-12-11T08:39:47.039519",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/shannentan22/CS198Repository.git",
+        "commit": "bf9acb36e9f7b71d5357e3de5604d4aed53ae121"
+    },
+    "email": null,
+    "root": "/home/nlpbiodiv2023/CS198Repository",
+    "host": "io",
+    "username": "nlpbiodiv2023",
+    "executable": "/bin/python3",
+    "cpu_count": 6,
+    "cpu_count_logical": 6,
+    "cpu_freq": {
+        "current": 1245.2218333333333,
+        "min": 800.0,
+        "max": 1900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1200.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1300.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1200.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1100.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1200.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1471.331,
+            "min": 800.0,
+            "max": 1900.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 915.3232879638672,
+            "used": 288.0327453613281
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "gpu_count": 2,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        },
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        }
+    ],
+    "memory": {
+        "total": 30.991832733154297
+    }
+}
