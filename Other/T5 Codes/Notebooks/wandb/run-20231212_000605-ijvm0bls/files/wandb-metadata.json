@@ -1,0 +1,81 @@
+{
+    "os": "Linux-5.15.0-89-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2023-12-11T16:06:06.767244",
+    "startedAt": "2023-12-11T16:06:05.431388",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/shannentan22/CS198Repository.git",
+        "commit": "de5932f8d95b50d3d5833a735fdc53c250148047"
+    },
+    "email": "shannentan22@gmail.com",
+    "root": "/home/nlpbiodiv2023/CS198Repository",
+    "host": "io",
+    "username": "nlpbiodiv2023",
+    "executable": "/bin/python3",
+    "cpu_count": 6,
+    "cpu_count_logical": 6,
+    "cpu_freq": {
+        "current": 1898.3463333333332,
+        "min": 800.0,
+        "max": 1900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1900.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1900.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1899.999,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1900.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1900.0,
+            "min": 800.0,
+            "max": 1900.0
+        },
+        {
+            "current": 1890.079,
+            "min": 800.0,
+            "max": 1900.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 915.3232879638672,
+            "used": 302.9068946838379
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "gpu_count": 2,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        },
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        }
+    ],
+    "memory": {
+        "total": 30.991832733154297
+    }
+}

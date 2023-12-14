@@ -1,0 +1,31 @@
+
+You're using a BertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [0,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [1,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [2,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [3,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [4,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [5,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [6,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [7,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [8,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [9,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [10,0,0] Assertion `t >= 0 && t < n_classes` failed.
+True
+12627148800
+--2023-12-11 21:22:53--  https://raw.githubusercontent.com/huggingface/transformers/master/examples/pytorch/text-classification/run_glue.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.111.133, 185.199.109.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 28335 (28K) [text/plain]
+Saving to: ‘run_glue.py.4’
+run_glue.py.4       100%[===================>]  27.67K  --.-KB/s    in 0.01s
+2023-12-11 21:22:53 (2.18 MB/s) - ‘run_glue.py.4’ saved [28335/28335]
+/tmp/ipykernel_401989/1497070395.py:4: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  data = data.fillna(method="ffill")
+/tmp/ipykernel_401989/1497070395.py:4: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  data = data.fillna(method="ffill")
+/tmp/ipykernel_401989/1497070395.py:4: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  data = data.fillna(method="ffill")
+[('bottom', 'O'), ('board', 'O'), ('debris', 'O'), (',', 'O'), ('frames', 'O'), (',', 'O'), ('landing', 'O'), ('platforms', 'O'), (')', 'O'), (',', 'O'), ('and', 'O'), ('isolates', 'O'), ('of', 'O'), ('microbes', 'O'), (',', 'O'), ('parasites', 'O'), ('and', 'O'), ('pathogens', 'O'), ('from', 'O'), ('honey', 'B-Organism'), ('bees', 'I-Organism'), ('.', 'O')]
+[('However', 'O'), (',', 'O'), ('the', 'O'), ('lack', 'O'), ('of', 'O'), ('correlation', 'O'), ('between', 'O'), ('dung', 'O'), ('beetle', 'O'), ('community', 'B-Environment'), ('characteristics', 'O'), ('and', 'O'), ('dung', 'O'), ('removal', 'O'), ('highlights', 'O'), ('the', 'O'), ('need', 'O'), ('for', 'O'), ('further', 'O'), ('research', 'O'), ('into', 'O'), ('spatial', 'O'), ('variation', 'O'), ('in', 'O'), ('biodiversityÃ¢â\x82¬â\x80\x9cecosystem', 'O'), ('function', 'O'), ('relationships', 'O'), ('and', 'O'), ('how', 'O'), ('the', 'O'), ('results', 'O'), ('of', 'O'), ('such', 'O'), ('studies', 'O'), ('are', 'O'), ('affected', 'O'), ('by', 'O'), ('methodological', 'O'), ('choices', 'O'), ('.', 'O')]
