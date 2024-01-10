@@ -1,0 +1,43 @@
+2024-01-10 13:13:21,613 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Current SDK version is 0.16.2
+2024-01-10 13:13:21,615 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Configure stats pid to 1367192
+2024-01-10 13:13:21,616 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Loading settings from /home/nlpbiodiv2023/.config/wandb/settings
+2024-01-10 13:13:21,616 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Loading settings from /home/nlpbiodiv2023/CS198Repository/Finetuning/wandb/settings
+2024-01-10 13:13:21,616 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'notebook_name': 'ELECTRA.ipynb'}
+2024-01-10 13:13:21,617 INFO    MainThread:1367192 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program': '<python with no main file>'}
+2024-01-10 13:13:21,618 INFO    MainThread:1367192 [wandb_init.py:_log_setup():526] Logging user logs to /home/nlpbiodiv2023/CS198Repository/Finetuning/wandb/run-20240110_131321-l99kzun6/logs/debug.log
+2024-01-10 13:13:21,619 INFO    MainThread:1367192 [wandb_init.py:_log_setup():527] Logging internal logs to /home/nlpbiodiv2023/CS198Repository/Finetuning/wandb/run-20240110_131321-l99kzun6/logs/debug-internal.log
+2024-01-10 13:13:21,620 INFO    MainThread:1367192 [wandb_init.py:_jupyter_setup():472] configuring jupyter hooks <wandb.sdk.wandb_init._WandbInit object at 0x7fafc8f9e0e0>
+2024-01-10 13:13:21,621 INFO    MainThread:1367192 [wandb_init.py:init():566] calling init triggers
+2024-01-10 13:13:21,622 INFO    MainThread:1367192 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {'batch_size': 16, 'dataset': 'COPIOUS'}
+2024-01-10 13:13:21,623 INFO    MainThread:1367192 [wandb_init.py:init():616] starting backend
+2024-01-10 13:13:21,623 INFO    MainThread:1367192 [wandb_init.py:init():620] setting up manager
+2024-01-10 13:13:21,626 INFO    MainThread:1367192 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-01-10 13:13:21,636 INFO    MainThread:1367192 [wandb_init.py:init():628] backend started and connected
+2024-01-10 13:13:21,640 INFO    MainThread:1367192 [wandb_run.py:_label_probe_notebook():1294] probe notebook
+2024-01-10 13:13:21,645 INFO    MainThread:1367192 [wandb_init.py:init():720] updated telemetry
+2024-01-10 13:13:21,664 INFO    MainThread:1367192 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-01-10 13:13:23,085 INFO    MainThread:1367192 [wandb_run.py:_on_init():2254] communicating current version
+2024-01-10 13:13:23,280 INFO    MainThread:1367192 [wandb_run.py:_on_init():2263] got version response 
+2024-01-10 13:13:23,280 INFO    MainThread:1367192 [wandb_init.py:init():804] starting run threads in backend
+2024-01-10 13:13:23,474 INFO    MainThread:1367192 [wandb_run.py:_console_start():2233] atexit reg
+2024-01-10 13:13:23,474 INFO    MainThread:1367192 [wandb_run.py:_redirect():2088] redirect: wrap_raw
+2024-01-10 13:13:23,474 INFO    MainThread:1367192 [wandb_run.py:_redirect():2153] Wrapping output streams.
+2024-01-10 13:13:23,474 INFO    MainThread:1367192 [wandb_run.py:_redirect():2178] Redirects installed.
+2024-01-10 13:13:23,476 INFO    MainThread:1367192 [wandb_init.py:init():847] run started, returning control to user process
+2024-01-10 13:13:23,498 INFO    MainThread:1367192 [jupyter.py:save_ipynb():373] not saving jupyter notebook
+2024-01-10 13:13:23,502 INFO    MainThread:1367192 [wandb_init.py:_pause_backend():437] pausing backend
+2024-01-10 13:14:08,573 INFO    MainThread:1367192 [wandb_init.py:_resume_backend():442] resuming backend
+2024-01-10 13:14:09,785 INFO    MainThread:1367192 [jupyter.py:save_ipynb():373] not saving jupyter notebook
+2024-01-10 13:14:09,786 INFO    MainThread:1367192 [wandb_init.py:_pause_backend():437] pausing backend
+2024-01-10 13:14:10,059 INFO    MainThread:1367192 [wandb_init.py:_resume_backend():442] resuming backend
+2024-01-10 13:14:10,063 INFO    MainThread:1367192 [wandb_run.py:_finish():1962] finishing run shannen-team/electra-small-discriminator/l99kzun6
+2024-01-10 13:14:10,064 ERROR   MainThread:1367192 [jupyter.py:save_history():437] Run pip install nbformat to save notebook history
+2024-01-10 13:14:10,064 INFO    MainThread:1367192 [jupyter.py:save_ipynb():373] not saving jupyter notebook
+2024-01-10 13:14:10,065 INFO    MainThread:1367192 [wandb_init.py:_jupyter_teardown():454] cleaning up jupyter logic
+2024-01-10 13:14:10,065 INFO    MainThread:1367192 [wandb_run.py:_atexit_cleanup():2202] got exitcode: 0
+2024-01-10 13:14:10,066 INFO    MainThread:1367192 [wandb_run.py:_restore():2185] restore
+2024-01-10 13:14:10,074 INFO    MainThread:1367192 [wandb_run.py:_restore():2191] restore done
+2024-01-10 13:14:19,212 INFO    MainThread:1367192 [wandb_run.py:_footer_history_summary_info():3857] rendering history
+2024-01-10 13:14:19,212 INFO    MainThread:1367192 [wandb_run.py:_footer_history_summary_info():3889] rendering summary
+2024-01-10 13:14:19,218 INFO    MainThread:1367192 [wandb_run.py:_footer_sync_info():3816] logging synced files
