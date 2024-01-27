@@ -17,3 +17,17 @@ BiodivNERE, by Abdelmageed et al., is a set of gold standard corpora specificall
 The BiodivNER corpus used in this repository was obtained from this link: 
 
 ## Models
+Seven models were involved in the fine-tuning process. Each model was trained twice—once on the COPIOUS corpus and once on the BiodivNER corpus.
+
+### Non-BERT-based Models
+1. ELECTRA: https://huggingface.co/docs/transformers/model_doc/electra
+2. FNet: https://huggingface.co/docs/transformers/model_doc/fnet
+3. MPNet: https://huggingface.co/docs/transformers/model_doc/mpnet
+
+### BERT-based Models
+1. BERT: https://huggingface.co/docs/transformers/model_doc/bert
+2. DistilBERT: https://huggingface.co/docs/transformers/model_doc/distilbert
+3. RoBERTa: https://huggingface.co/docs/transformers/model_doc/roberta
+
+### Domain-Specific Model
+1. BiodivBERT: https://ceur-ws.org/Vol-3415/paper-7.pdf
